@@ -7,8 +7,20 @@
  * Return -1 if memory allocation fails.
  */
 int LLInsertAtBeginning(LLElement **first, int key) {
-    // TODO Implementation needed
-    return -1;
+    int r=0;
+     LLElement *elemento;
+     elemento=(LLElement*)malloc(sizeof(LLElement));
+     if(elemento!=NULL)
+     {
+         elemento->next=*first;
+         elemento->key=key;
+         *first=elemento;
+     }
+     else
+     {
+        r=-1;
+     }
+     return r;
 }
 
 /*
@@ -17,8 +29,26 @@ int LLInsertAtBeginning(LLElement **first, int key) {
  * Return -1 if memory allocation fails.
  */
 int LLInsertAtEnd(LLElement **first, int key) {
-    // TODO Implementation needed
-    return -1;
+    int r=0;
+    LLElement *elemento;
+          LLElement **temp; 
+          elemento=(LLElement*)malloc(sizeof(LLElement));
+          if(elemento!=NULL)
+          {             
+             temp=first;
+             while(*temp!=NULL)
+             {
+                temp=&(*temp)->next;
+             }
+             elemento->next=NULL;
+             elemento->key=key;
+             *temp=elemento;      
+          }
+          else
+          {
+              r=-1;
+          }
+           return r;   
 }
 
 /*
@@ -30,16 +60,40 @@ int LLInsertAtEnd(LLElement **first, int key) {
  * Return -1 if memory allocation fails.
  */
 int LLInsertAtPosition(LLElement **first, int key, int position) {
-    // TODO Implementation needed
-    return -1;
+    int r=0;
+    LLElement *elemento;
+     LLElement **temp;
+     int i;
+    elemento=(LLElement*)malloc(sizeof(LLElement));
+     if(elemento!=NULL)
+     {
+        temp=first;
+        for(i=0;i<position;i++)
+        {
+            temp=&((*temp)->next);
+        }
+        elemento->next=*temp;
+        elemento->key=key;
+        *temp=elemento;
+     }
+     else
+     {
+         r=-1;
+     }
+     return r;   
 }
 
 /*
  * Returns the size of the list.
  */
 int LLSize(LLElement *first) {
-    // TODO Implementation needed
-    return -1;
+    int i=0;
+    while(first!=NULL)
+    {
+       i++;
+       first=first->next;
+    }
+    return i;
 }
 
 /*
@@ -49,8 +103,21 @@ int LLSize(LLElement *first) {
  * Returns -1 if there is no key at the specified position
  */ 
 int LLGetKey(LLElement *first, int position, int *key) {
-    // TODO Implementation needed
-    return -1;
+    int i;
+    int r=0;
+    for(i=0;i<position && first!=NULL;i++)
+    {
+        first=first->next;
+    }
+    if(first!=NULL)
+    {
+        *key=first->key;
+    }
+    else
+    {
+        r=-1;
+    }
+    return r;
 }
 
 /*
@@ -61,8 +128,27 @@ int LLGetKey(LLElement *first, int position, int *key) {
  * Returns -1 if not found. 
  */ 
 int LLFindKey(LLElement *first, int key, int startPosition, int *position) {
-    // TODO Implementation needed
-    return -1;
+   int r=0;
+    int i;
+    *position=-1;
+    for(i=0;i<startPosition && first!=NULL;i++) 
+    {
+        first=first->next;
+    }
+    while(first!=NULL && *position==-1) 
+    {
+        if(first->key==key) 
+        {
+            *position=i;
+        }
+        first=first->next;
+        i++;
+    }
+    if(first==NULL)
+    {
+        r=-1;
+    }
+    return r;
 }
 
 /*
@@ -72,8 +158,19 @@ int LLFindKey(LLElement *first, int key, int startPosition, int *position) {
  * Returns -1 in csae of empty list.
  */
 int LLRemoveFirst(LLElement **first) {
-    // TODO Implementation needed
-    return -1;
+    int r=0;
+    if(*first!=NULL)
+     {
+        LLElement *temp;
+        temp=*first;
+        *first=(*first)->next;
+        free(temp);
+     }
+     else
+     {
+         r=-1;
+     }
+     return r;
 }
 
 /*
@@ -83,8 +180,23 @@ int LLRemoveFirst(LLElement **first) {
  * Returns -1 in csae of empty list.
  */
 int LLRemoveLast(LLElement **first) {
-    // TODO Implementation needed
-    return -1;
+    int r=0;
+    LLElement **temp;
+     if(*first!=NULL)
+     {
+         temp=first;
+         while((*temp)->next!=NULL)
+         {
+            temp=&((*temp)->next);
+         }
+         free(*temp);
+         *temp=NULL;
+     }
+     else
+     {
+         r=-1;
+     }
+     return r;
 }
 
 /*
@@ -96,8 +208,30 @@ int LLRemoveLast(LLElement **first) {
  * Returns -1 in case it does not exist any element at the specified position
  */
 int LLRemoveAtPosition(LLElement **first, int position) {
-    // TODO Implementation needed
-    return -1;
+    LLElement **temp;
+    LLElement *pDelete;
+    int i;
+    int r=0;
+    temp=first;
+    for(i=0;i<position && *temp!=NULL;i++)
+    {
+        temp=&((*temp)->next);
+    }
+    if((*temp)!=NULL) 
+    {
+        pDelete=*temp;
+        if((*temp)->next!=NULL)
+        {
+            *temp=(*temp)->next;
+        }
+        free(pDelete);
+    }
+    else
+    {
+        r=-1;
+    }
+    
+    return r;      
 }
 
 /*
@@ -106,6 +240,20 @@ int LLRemoveAtPosition(LLElement **first, int position) {
  * Return -1 in case of emtpy list. 
  */
 int LLEmptyList(LLElement **first) {
-    // TODO Implementation needed
-    return -1;
+     LLElement *temp;
+     int r=0;
+     if(*first!=NULL)
+     {
+       while(*first!=NULL)
+       {
+          temp=*first;
+          *first=(*first)->next;
+          free(temp);
+       }
+     }
+       else
+     {
+         r=-1;
+     }
+    return r;
 }
